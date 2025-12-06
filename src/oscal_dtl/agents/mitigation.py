@@ -9,7 +9,7 @@ from typing import Any, Dict, Optional
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
-from ..config import OPENAI_MODEL
+from ..config import OPENAI_API_KEY, OPENAI_MODEL
 from ..models import MitigationPlan, RiskAssessment
 
 # Lazy initialization to avoid import-time API key validation
@@ -75,6 +75,15 @@ def mitigation_node(state: Dict[str, Any]) -> Dict[str, Any]:
     """
     ra: RiskAssessment | None = state.get("risk_assessment")
     
+    if not OPENAI_API_KEY:
+        print("⚠️  MitigationAgent: OPENAI_API_KEY not set, skipping LLM mitigation plan")
+        return {
+            "mitigation_plan": MitigationPlan(
+                narrative="LLM-based mitigation plan skipped because OPENAI_API_KEY is not configured.",
+                by_component={},
+            )
+        }
+
     if ra is None:
         print("⚠️  MitigationAgent: No risk assessment available")
         return {}
