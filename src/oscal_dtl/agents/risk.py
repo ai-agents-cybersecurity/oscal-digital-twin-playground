@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Optional
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
-from ..config import OPENAI_MODEL
+from ..config import OPENAI_API_KEY, OPENAI_MODEL
 from ..models import DriftItem, RiskAssessment
 
 # Lazy initialization to avoid import-time API key validation
@@ -81,6 +81,15 @@ def risk_node(state: Dict[str, Any]) -> Dict[str, Any]:
         Updated state with 'risk_assessment' and enriched 'drift' items
     """
     drift: List[DriftItem] = state.get("drift", [])
+
+    if not OPENAI_API_KEY:
+        print("⚠️  RiskAgent: OPENAI_API_KEY not set, skipping LLM risk scoring")
+        ra = RiskAssessment(
+            overall_score=0.0,
+            summary="LLM-based risk scoring skipped because OPENAI_API_KEY is not configured.",
+            items=drift,
+        )
+        return {"risk_assessment": ra, "drift": drift}
     
     if not drift:
         print("⚠️  RiskAgent: No drift items to assess")
