@@ -9,7 +9,7 @@ from typing import Any, Dict, Optional
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
-from ..config import OPENAI_MODEL
+from ..config import OPENAI_API_KEY, OPENAI_MODEL
 from ..models import DocumentationUpdate, MitigationPlan, RiskAssessment
 
 # Lazy initialization to avoid import-time API key validation
@@ -89,6 +89,15 @@ def documentor_node(state: Dict[str, Any]) -> Dict[str, Any]:
     """
     ra: RiskAssessment | None = state.get("risk_assessment")
     mp: MitigationPlan | None = state.get("mitigation_plan")
+
+    if not OPENAI_API_KEY:
+        print("⚠️  DocumentorAgent: OPENAI_API_KEY not set, skipping LLM documentation generation")
+        return {
+            "documentation_update": DocumentationUpdate(
+                assessment_fragment={"status": "llm_disabled"},
+                poam_fragment={"status": "llm_disabled"},
+            )
+        }
     
     if ra is None or mp is None:
         print("⚠️  DocumentorAgent: Missing risk assessment or mitigation plan")
