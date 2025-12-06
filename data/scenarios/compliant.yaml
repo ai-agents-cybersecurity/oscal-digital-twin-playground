@@ -1,0 +1,24 @@
+# Scenario: Fully Compliant Configuration
+# Tests what a compliant state looks like
+
+name: "Fully Compliant"
+description: |
+  Configuration that meets all SSP requirements.
+  This scenario should result in zero drift items.
+
+changes:
+  - component: web-app
+    attribute: mfa_enabled
+    value: true
+  - component: web-app
+    attribute: tls_version
+    value: "TLS1.2"
+  - component: database
+    attribute: encrypted_at_rest
+    value: true
+  - component: idp
+    attribute: mfa_enabled
+    value: true
+  - component: idp
+    attribute: password_min_length
+    value: 12

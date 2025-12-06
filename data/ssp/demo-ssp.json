@@ -1,0 +1,238 @@
+{
+  "system-security-plan": {
+    "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "metadata": {
+      "title": "Demo Web Application System Security Plan",
+      "last-modified": "2024-01-15T10:00:00Z",
+      "version": "1.0.0",
+      "oscal-version": "1.1.2",
+      "remarks": "Sample SSP for OSCAL Digital Twin Lab demonstration"
+    },
+    "import-profile": {
+      "href": "#profile-moderate"
+    },
+    "system-characteristics": {
+      "system-id": {
+        "identifier-type": "https://example.org/system-id",
+        "id": "demo-webapp"
+      },
+      "system-name": "Demo Web Application",
+      "description": "A demonstration web application with database backend and identity provider integration.",
+      "security-sensitivity-level": "moderate",
+      "system-information": {
+        "information-types": [
+          {
+            "uuid": "info-type-1",
+            "title": "User Account Information",
+            "description": "PII and authentication data",
+            "confidentiality-impact": { "base": "moderate" },
+            "integrity-impact": { "base": "moderate" },
+            "availability-impact": { "base": "low" }
+          }
+        ]
+      },
+      "authorization-boundary": {
+        "description": "The system boundary includes the web application, database, and identity provider components."
+      }
+    },
+    "system-implementation": {
+      "users": [
+        {
+          "uuid": "user-admin",
+          "title": "System Administrator",
+          "role-ids": ["admin"]
+        },
+        {
+          "uuid": "user-standard",
+          "title": "Standard User",
+          "role-ids": ["user"]
+        }
+      ],
+      "components": [
+        {
+          "uuid": "comp-web-app",
+          "type": "software",
+          "title": "Web Application",
+          "description": "Frontend web application providing user interface",
+          "status": { "state": "operational" },
+          "props": [
+            { "name": "oscal-dtl:component-id", "value": "web-app" }
+          ]
+        },
+        {
+          "uuid": "comp-database",
+          "type": "software",
+          "title": "Database Server",
+          "description": "PostgreSQL database storing application data",
+          "status": { "state": "operational" },
+          "props": [
+            { "name": "oscal-dtl:component-id", "value": "database" }
+          ]
+        },
+        {
+          "uuid": "comp-idp",
+          "type": "software",
+          "title": "Identity Provider",
+          "description": "Authentication and identity management service",
+          "status": { "state": "operational" },
+          "props": [
+            { "name": "oscal-dtl:component-id", "value": "idp" }
+          ]
+        }
+      ]
+    },
+    "control-implementation": {
+      "description": "Control implementation for Demo Web Application",
+      "implemented-requirements": [
+        {
+          "uuid": "impl-ia-2",
+          "control-id": "IA-2",
+          "by-components": [
+            {
+              "component-uuid": "comp-web-app",
+              "uuid": "by-comp-ia2-webapp",
+              "description": "The web application requires multi-factor authentication for all user access.",
+              "props": [
+                { "name": "oscal-dtl:component-id", "value": "web-app" },
+                { "name": "oscal-dtl:attribute", "value": "mfa_enabled" },
+                { "name": "oscal-dtl:expected", "value": "true" }
+              ]
+            },
+            {
+              "component-uuid": "comp-idp",
+              "uuid": "by-comp-ia2-idp",
+              "description": "The identity provider enforces MFA for all authentication requests.",
+              "props": [
+                { "name": "oscal-dtl:component-id", "value": "idp" },
+                { "name": "oscal-dtl:attribute", "value": "mfa_enabled" },
+                { "name": "oscal-dtl:expected", "value": "true" }
+              ]
+            }
+          ]
+        },
+        {
+          "uuid": "impl-ia-2-1",
+          "control-id": "IA-2(1)",
+          "by-components": [
+            {
+              "component-uuid": "comp-web-app",
+              "uuid": "by-comp-ia2-1-webapp",
+              "description": "MFA is required for privileged account access to the web application.",
+              "props": [
+                { "name": "oscal-dtl:component-id", "value": "web-app" },
+                { "name": "oscal-dtl:attribute", "value": "mfa_enabled" },
+                { "name": "oscal-dtl:expected", "value": "true" }
+              ]
+            }
+          ]
+        },
+        {
+          "uuid": "impl-ia-5-1",
+          "control-id": "IA-5(1)",
+          "by-components": [
+            {
+              "component-uuid": "comp-idp",
+              "uuid": "by-comp-ia5-1-idp",
+              "description": "Password-based authentication requires minimum 12 character passwords with complexity requirements.",
+              "props": [
+                { "name": "oscal-dtl:component-id", "value": "idp" },
+                { "name": "oscal-dtl:attribute", "value": "password_min_length" },
+                { "name": "oscal-dtl:expected", "value": "12" }
+              ]
+            }
+          ]
+        },
+        {
+          "uuid": "impl-sc-8",
+          "control-id": "SC-8",
+          "by-components": [
+            {
+              "component-uuid": "comp-web-app",
+              "uuid": "by-comp-sc8-webapp",
+              "description": "All communications are protected using TLS 1.2 or higher.",
+              "props": [
+                { "name": "oscal-dtl:component-id", "value": "web-app" },
+                { "name": "oscal-dtl:attribute", "value": "tls_version" },
+                { "name": "oscal-dtl:expected", "value": "TLS1.2" }
+              ]
+            }
+          ]
+        },
+        {
+          "uuid": "impl-sc-13",
+          "control-id": "SC-13",
+          "by-components": [
+            {
+              "component-uuid": "comp-web-app",
+              "uuid": "by-comp-sc13-webapp",
+              "description": "Cryptographic mechanisms use FIPS-validated algorithms (TLS 1.2+).",
+              "props": [
+                { "name": "oscal-dtl:component-id", "value": "web-app" },
+                { "name": "oscal-dtl:attribute", "value": "tls_version" },
+                { "name": "oscal-dtl:expected", "value": "TLS1.2" }
+              ]
+            }
+          ]
+        },
+        {
+          "uuid": "impl-sc-28",
+          "control-id": "SC-28",
+          "by-components": [
+            {
+              "component-uuid": "comp-database",
+              "uuid": "by-comp-sc28-db",
+              "description": "Database implements encryption at rest for all stored data.",
+              "props": [
+                { "name": "oscal-dtl:component-id", "value": "database" },
+                { "name": "oscal-dtl:attribute", "value": "encrypted_at_rest" },
+                { "name": "oscal-dtl:expected", "value": "true" }
+              ]
+            }
+          ]
+        },
+        {
+          "uuid": "impl-au-2",
+          "control-id": "AU-2",
+          "by-components": [
+            {
+              "component-uuid": "comp-web-app",
+              "uuid": "by-comp-au2-webapp",
+              "description": "The web application logs security-relevant events.",
+              "props": [
+                { "name": "oscal-dtl:component-id", "value": "web-app" },
+                { "name": "oscal-dtl:attribute", "value": "logging_enabled" },
+                { "name": "oscal-dtl:expected", "value": "true" }
+              ]
+            },
+            {
+              "component-uuid": "comp-database",
+              "uuid": "by-comp-au2-db",
+              "description": "The database logs all access and modification events.",
+              "props": [
+                { "name": "oscal-dtl:component-id", "value": "database" },
+                { "name": "oscal-dtl:attribute", "value": "audit_logging" },
+                { "name": "oscal-dtl:expected", "value": "true" }
+              ]
+            }
+          ]
+        },
+        {
+          "uuid": "impl-ac-7",
+          "control-id": "AC-7",
+          "by-components": [
+            {
+              "component-uuid": "comp-web-app",
+              "uuid": "by-comp-ac7-webapp",
+              "description": "The system enforces account lockout after failed login attempts.",
+              "props": [
+                { "name": "oscal-dtl:component-id", "value": "web-app" },
+                { "name": "oscal-dtl:attribute", "value": "failed_login_lockout" },
+                { "name": "oscal-dtl:expected", "value": "true" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

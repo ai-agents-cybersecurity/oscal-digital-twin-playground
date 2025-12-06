@@ -1,0 +1,16 @@
+# Scenario: All MFA Disabled
+# Tests the impact of disabling MFA across all components
+
+name: "MFA Completely Disabled"
+description: |
+  What-if scenario where MFA is disabled on all components.
+  This represents a significant security regression affecting
+  IA-2 (Identification and Authentication) controls.
+
+changes:
+  - component: web-app
+    attribute: mfa_enabled
+    value: false
+  - component: idp
+    attribute: mfa_enabled
+    value: false

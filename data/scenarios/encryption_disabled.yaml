@@ -1,0 +1,18 @@
+# Scenario: All Encryption Disabled
+# Tests the impact of disabling encryption across all components
+
+name: "Encryption Disabled"
+description: |
+  What-if scenario where encryption is disabled.
+  This represents a critical security gap affecting
+  SC-8 (Transmission Confidentiality) and SC-28 (Protection of Information at Rest) controls.
+
+changes:
+  - component: web-app
+    attribute: tls_version
+    value: "none"
+  - component: database
+    attribute: encrypted_at_rest
+    value: false
+    attribute: connection_encryption
+    value: false

@@ -1,0 +1,25 @@
+# Live System Configuration
+# This represents the ACTUAL state of the system components
+# Compare against demo-ssp.json for drift detection
+
+system_id: demo-webapp
+
+components:
+  web-app:
+    mfa_enabled: false           # DRIFT: SSP expects true
+    logging_enabled: true
+    tls_version: "TLS1.0"        # DRIFT: SSP expects TLS1.2
+    session_timeout_minutes: 30
+    failed_login_lockout: true
+
+  database:
+    encrypted_at_rest: false     # DRIFT: SSP expects true
+    backup_frequency_hours: 48
+    connection_encryption: true
+    audit_logging: true
+
+  idp:
+    mfa_enabled: true
+    password_min_length: 8       # DRIFT: SSP expects 12
+    password_complexity: true
+    account_lockout_threshold: 5

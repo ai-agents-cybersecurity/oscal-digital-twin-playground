@@ -1,0 +1,16 @@
+# Scenario: Logging and Audit Disabled
+# Tests the impact of disabling audit logging
+
+name: "Logging Disabled"
+description: |
+  What-if scenario where audit logging is disabled.
+  This affects AU-2 (Event Logging) and AU-3 (Content of Audit Records) controls.
+  Without logging, security incidents may go undetected.
+
+changes:
+  - component: web-app
+    attribute: logging_enabled
+    value: false
+  - component: database
+    attribute: audit_logging
+    value: false
