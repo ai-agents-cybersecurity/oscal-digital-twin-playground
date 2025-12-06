@@ -1,8 +1,17 @@
 # oscal-digital-twin-lab
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![LangGraph](https://img.shields.io/badge/LangGraph-Enabled-green.svg)](https://langchain-ai.github.io/langgraph/)
+[![NIST OSCAL](https://img.shields.io/badge/Docs-NIST%20OSCAL-0a67a3.svg)](https://pages.nist.gov/OSCAL/)
+[![OSCAL Content](https://img.shields.io/badge/Repo-oscal--content-ff9800.svg)](https://github.com/usnistgov/oscal-content)
+[![LangGraph Docs](https://img.shields.io/badge/Docs-LangGraph-4caf50.svg)](https://langchain-ai.github.io/langgraph/)
+[![OSCAL JSON Reference](https://img.shields.io/badge/Reference-OSCAL%20JSON-9c27b0.svg)](https://pages.nist.gov/OSCAL-Reference/)
 
 A tiny playground for **OSCAL-powered digital twins** with **LangGraph agents**.
 
-Inspired by NIST's [CSWP 53 draft](https://csrc.nist.gov/pubs/cswp/53/charting-the-course-for-nist-oscal/ipd) ("Charting the Course for NIST OSCAL") and its vision of OSCAL-backed digital twins and agentic AI for continuous assurance, this repo simulates a mini environment:
+
+
+> Inspired by NIST's <a href="https://csrc.nist.gov/pubs/cswp/53/charting-the-course-for-nist-oscal/ipd">CSWP 53 draft</a> (“Charting the Course for NIST OSCAL”) <img src="docs/oscalpapericon.png" alt="CSWP 53 draft" width="24"> and its vision of OSCAL-backed digital twins and agentic AI for continuous assurance, this repo simulates a mini environment:
 
 - An OSCAL SSP = the **intended** system state (the twin's "DNA").
 - A simple YAML **live-config** = the **actual** system state.
@@ -12,11 +21,17 @@ Inspired by NIST's [CSWP 53 draft](https://csrc.nist.gov/pubs/cswp/53/charting-t
   - suggest **mitigation** actions, and
   - generate OSCAL-like **assessment / POA&M** fragments.
 
+-----
+
+
+
+<img src="docs/streamlit-ui.png" alt="Streamlit UI Screenshot" width="50%">
+
 ## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                      OSCAL Digital Twin Lab                        │
+│                      OSCAL Digital Twin Lab                         │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │  ┌──────────────┐     ┌──────────────┐                              │
@@ -26,24 +41,24 @@ Inspired by NIST's [CSWP 53 draft](https://csrc.nist.gov/pubs/cswp/53/charting-t
 │         │                    │                                      │
 │         └────────┬───────────┘                                      │
 │                  ▼                                                  │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │                    LangGraph Pipeline                        │   │
-│  │                                                              │   │
-│  │  ┌──────────┐   ┌──────────┐   ┌────────────┐   ┌─────────┐ │   │
-│  │  │TwinSync  │──▶│  Risk    │──▶│ Mitigation │──▶│Documentor│ │   │
-│  │  │  Agent   │   │  Agent   │   │   Agent    │   │  Agent   │ │   │
-│  │  └──────────┘   └──────────┘   └────────────┘   └─────────┘ │   │
-│  │                                                              │   │
-│  └─────────────────────────────────────────────────────────────┘   │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │                    LangGraph Pipeline                         │  │
+│  │                                                               │  │
+│  │  ┌──────────┐   ┌──────────┐   ┌────────────┐   ┌───────────┐ │  │
+│  │  │TwinSync  │──▶│  Risk    │──▶│ Mitigation │──▶│Documentor │ │  │
+│  │  │  Agent   │   │  Agent   │   │   Agent    │   │  Agent    │ │  │
+│  │  └──────────┘   └──────────┘   └────────────┘   └───────────┘ │  │
+│  │                                                               │  │
+│  └───────────────────────────────────────────────────────────────┘  │
 │                  │                                                  │
 │                  ▼                                                  │
-│  ┌─────────────────────────────────────────────────────────────┐   │
-│  │  Outputs:                                                    │   │
-│  │  • Drift Report (component/attribute mismatches)            │   │
-│  │  • Risk Assessment (severity scores, rationale)             │   │
-│  │  • Mitigation Plan (actionable remediation steps)           │   │
-│  │  • OSCAL Fragments (assessment-results, POA&M)              │   │
-│  └─────────────────────────────────────────────────────────────┘   │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │  Outputs:                                                   │    │
+│  │  • Drift Report (component/attribute mismatches)            │    │
+│  │  • Risk Assessment (severity scores, rationale)             │    │
+│  │  • Mitigation Plan (actionable remediation steps)           │    │
+│  │  • OSCAL Fragments (assessment-results, POA&M)              │    │
+│  └─────────────────────────────────────────────────────────────┘    │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -53,7 +68,9 @@ Inspired by NIST's [CSWP 53 draft](https://csrc.nist.gov/pubs/cswp/53/charting-t
 - OSCAL examples from [`usnistgov/oscal-content`](https://github.com/usnistgov/oscal-content)
 - [LangGraph](https://github.com/langchain-ai/langgraph) for agent orchestration
 - [LangChain](https://github.com/langchain-ai/langchain) for LLM plumbing
+- [Streamlit](https://streamlit.io/) for interactive web UI
 - [Pydantic](https://docs.pydantic.dev/) for data models
+- Python 3.11+ (conda environment: `oscal-twin`)
 
 ## Quickstart
 
@@ -62,12 +79,12 @@ Inspired by NIST's [CSWP 53 draft](https://csrc.nist.gov/pubs/cswp/53/charting-t
 git clone https://github.com/<you>/oscal-digital-twin-lab.git
 cd oscal-digital-twin-lab
 
-# OSCAL content (optional submodule)
-git submodule add https://github.com/usnistgov/oscal-content.git data/oscal-content
+# Create conda environment
+conda create -n oscal-twin python=3.11 -y
+conda activate oscal-twin
 
 # Install
 pip install -e .
-# or: pip install langgraph langchain langchain-openai pydantic pyyaml python-dotenv streamlit
 
 # Configure
 cp .env.example .env
@@ -82,6 +99,8 @@ streamlit run src/oscal_dtl/app.py
 # Run Scenario Runner
 python -m oscal_dtl.scenario_runner data/scenarios/compliant.yaml
 ```
+
+> **Note:** Drift detection works without an API key. LLM-powered agents (Risk, Mitigation, Documentor) require `OPENAI_API_KEY` in your `.env`.
 
 ## Example Output
 
@@ -236,4 +255,4 @@ Features:
 
 ## License
 
-MIT
+Apache 2

@@ -11,10 +11,10 @@ from typing import Any, Dict, List, Optional
 import streamlit as st
 import yaml
 
-from .config import BASE_DIR, DEMO_SSP_PATH, LIVE_CONFIG_PATH, validate_config
-from .models import DriftItem
-from .oscal_ssp_loader import extract_expectations, load_ssp
-from .twin_engine import calculate_drift, load_live_state
+from oscal_dtl.config import BASE_DIR, DEMO_SSP_PATH, LIVE_CONFIG_PATH, validate_config
+from oscal_dtl.models import DriftItem
+from oscal_dtl.oscal_ssp_loader import extract_expectations, load_ssp
+from oscal_dtl.twin_engine import calculate_drift, load_live_state
 
 # Page config
 st.set_page_config(
@@ -27,10 +27,10 @@ st.set_page_config(
 # Custom CSS
 st.markdown("""
 <style>
-    .drift-high { background-color: #ffcccc; padding: 10px; border-radius: 5px; margin: 5px 0; }
-    .drift-medium { background-color: #fff3cd; padding: 10px; border-radius: 5px; margin: 5px 0; }
-    .drift-low { background-color: #d4edda; padding: 10px; border-radius: 5px; margin: 5px 0; }
-    .drift-none { background-color: #e7e7e7; padding: 10px; border-radius: 5px; margin: 5px 0; }
+    .drift-high { background-color: #ffcccc; padding: 10px; border-radius: 5px; margin: 5px 0; color: #000000; }
+    .drift-medium { background-color: #fff3cd; padding: 10px; border-radius: 5px; margin: 5px 0; color: #000000; }
+    .drift-low { background-color: #d4edda; padding: 10px; border-radius: 5px; margin: 5px 0; color: #000000; }
+    .drift-none { background-color: #e7e7e7; padding: 10px; border-radius: 5px; margin: 5px 0; color: #000000; }
     .metric-card { 
         background-color: #f0f2f6; 
         padding: 20px; 
@@ -297,7 +297,7 @@ def render_pipeline_tab(drift: List[DriftItem]) -> None:
     if st.button("🚀 Run Full Pipeline", type="primary"):
         with st.spinner("Running LLM pipeline..."):
             try:
-                from .graph import build_graph
+                from oscal_dtl.graph import build_graph
                 app = build_graph()
                 result = app.invoke({})
                 
